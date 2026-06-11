@@ -1,0 +1,121 @@
+library(shiny)
+
+library(ggplot2)
+
+library(dplyr)
+
+data <- read.csv("semiconductor_wafer_defect_dataset.csv")
+
+data$defect_label <- as.factor(data$defect_label)
+
+data$temperature_bin <- cut(data$temperature_c, breaks = 3,
+
+                            labels = c("Low", "Medium", "High"))
+
+ui <- fluidPage(
+
+  titlePanel("Semiconductor Wafer Defect Dashboard"),
+
+  
+
+  sidebarLayout(
+
+    sidebarPanel(
+
+      selectInput("step", "Choose Process Step:",
+
+                  choices = c("All", unique(data$process_step)))
+
+    ),
+
+    
+
+    mainPanel(
+
+      plotOutput("chart1"),
+
+      plotOutput("chart2"),
+
+      plotOutput("chart3")
+
+    )
+
+  )
+
+)
+
+server <- function(input, output) {
+
+  
+
+  # reactive filter used by all 3 charts
+
+  filtered <- reactive({
+
+    if (input$step == "All") data
+
+    else data %>% filter(process_step == input$step)
+
+  })
+
+  
+
+  output$chart1 <- renderPlot({
+
+    ggplot(filtered(), aes(x = process_step, fill = defect_label)) +
+
+      geom_bar(position = "dodge") +
+
+      labs(title = "Number of Defects by Process Step",
+
+           x = "Process Step", y = "Count",
+
+           fill = "Defect? (0=No, 1=Yes)") +
+
+      theme_minimal()
+
+  })
+
+  
+
+  output$chart2 <- renderPlot({
+
+    ggplot(filtered(), aes(x = temperature_c, y = etch_rate_nm_min,
+
+                           color = defect_label)) +
+
+      geom_point(alpha = 0.5) +
+
+      labs(title = "Temperature vs Etch Rate",
+
+           x = "Temperature (°C)", y = "Etch Rate (nm/min)",
+
+           color = "Defect? (0=No, 1=Yes)") +
+
+      theme_minimal()
+
+  })
+
+  
+
+  output$chart3 <- renderPlot({
+
+    ggplot(filtered(), aes(x = temperature_bin, fill = defect_label)) +
+
+      geom_bar(position = "fill") +
+
+      labs(title = "Rate of Number of Defects by Temperature Bin",
+
+           x = "Temperature Bin", y = "Percent",
+
+           fill = "Defect? (0=No, 1=Yes)") +
+
+      scale_y_continuous(labels = scales::percent) +
+
+      theme_minimal()
+
+  })
+
+}
+
+shinyApp(ui, server)
