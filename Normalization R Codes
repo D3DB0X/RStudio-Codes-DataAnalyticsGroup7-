@@ -1,0 +1,11 @@
+Normalized_DepoGroup <- scale(Deposition_Group[, c("temperature_c", "pressure_torr", "gas_flow_sccm", "etch_rate_nm_min", "voltage_v", "current_ma")])
+Normalized_LithoGroup <- scale(Lithography_Group[, c("temperature_c", "pressure_torr", "gas_flow_sccm", "etch_rate_nm_min", "voltage_v", "current_ma")])
+Normalized_EtchGroup <- scale(Etching_Group[, c("temperature_c", "pressure_torr", "gas_flow_sccm", "etch_rate_nm_min", "voltage_v", "current_ma")])
+Normalized_OxiGroup <- scale(Oxidation_Group[, c("temperature_c", "pressure_torr", "gas_flow_sccm", "etch_rate_nm_min", "voltage_v", "current_ma")])
+Normalized_CMPGroup <- scale(CMP_Group[, c("temperature_c", "pressure_torr", "gas_flow_sccm", "etch_rate_nm_min", "voltage_v", "current_ma")])
+
+Normalized_DepoGroup
+Normalized_LithoGroup
+Normalized_EtchGroup
+Normalized_OxiGroup
+Normalized_CMPGroup
