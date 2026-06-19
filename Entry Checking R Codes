@@ -6,5 +6,5 @@ semiconductor_wafer_defect_dataset$gas_flow_sccm < 0
 semiconductor_wafer_defect_dataset$etch_rate_nm_min < 0
 semiconductor_wafer_defect_dataset$voltage_v < 0
 semiconductor_wafer_defect_dataset$current_ma < 0
-semiconductor_wafer_defect_dataset$process_step < 0
+// excluding process_step for its data type is string
 semiconductor_wafer_defect_dataset$defect_label < 0
