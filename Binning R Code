@@ -1,0 +1,9 @@
+sum(is.na(data))
+
+data$temperature_bin <- cut(
+ data$temperature_c,
+ breaks = 3,
+ labels = c("Low", "Medium", "High")
+)
+
+str(data)
